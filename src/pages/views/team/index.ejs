@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <header class="bg-white"><%- include('../layouts/header'); %></header>
+
+  <main class="container mx-auto px-6">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+        <thead class="ltr:text-left rtl:text-right">
+          <tr>
+            <th >
+              Equipo
+            </th>
+            <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              Color
+            </th>
+            <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              Categoria
+            </th>
+            <th class="w-4"></th>
+            <th class="w-4"></th>
+            <th class="w-4"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% for (const team of teams) { %>
+            <tr>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                <%= team.nameTeam %>
+              </td>
+              <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                <%= team.colorTeam %>
+              </td>
+              <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                <%= team.categoriaTeam %>
+              </td>
+              <td class="whitespace-nowrap w-4">
+                <a href="team/edit/<%= team._id %>"
+                  class="w-20 inline-block rounded bg-blue-600 px-4 py-2 text-xs font-medium text-white text-center hover:bg-indigo-700">
+                  Editar
+                </a>
+              </td>
+              <td class="whitespace-nowrap w-4">
+                <button type="button" href="team/delete/<%= team._id %>" onclick="deleteTeam('<%= team._id %>')"
+                  class="w-20 inline-block rounded bg-blue-600 px-4 py-2 text-xs font-medium text-white text-center hover:bg-indigo-700">
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+            <% } %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer><%- include('../layouts/footer'); %></footer>
+
+  <script>
+    function deleteTeam(id) {
+      fetch(`api/team/${id}`, {
+        method: "DELETE",
+      }).then((response) => {
+        window.location.href = "/team";
+      });
+    }
+    function updateTeam(id) {
+      fetch(`api/team/${id}`, {
+        method: "UPDATE",
+      }).then((response) => {
+        window.location.href = "/team";
+      });
+    }
+  </script>
+</body>
+
+</html>
